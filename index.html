@@ -5,9 +5,49 @@
     <title>Workshop Node.js</title>
 
     <style>
+
+        html, body {
+            width: 100%;
+            height: 100%;
+
+            background: #f1e767; /* Old browsers */
+            background: -moz-linear-gradient(top, #f1e767 0%, #feb645 100%); /* FF3.6-15 */
+            background: -webkit-linear-gradient(top, #f1e767 0%,#feb645 100%); /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(to bottom, #f1e767 0%,#feb645 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f1e767', endColorstr='#feb645',GradientType=0 ); /* IE6-9 */
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            font-family: Arial, serif;
+        }
+
+        header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-left: 30px;
+            margin-right: 30px;
+        }
+
+        h1 {
+            color: #333333;
+            font-size: 2.5em;
+            text-align: center;
+        }
+
+        button {
+            margin-left: 20px;
+        }
+
         #tweets {
             display: flex;
             flex-direction: column-reverse;
+        }
+
+        .singleTweet {
+            text-align: center;
         }
     </style>
 
@@ -19,17 +59,22 @@
             console.log("Started", new Date().toLocaleString());
         });
 
+        // document.querySelector('button').addEventListener('mouseDown', () => {
+        //     console.log('yes');
+        //     socket.send('hello')
+        // });
+
         let count = 0;
 
         socket.addEventListener('message', function (event) {
-            // console.log("New message", event.data);
+
             count+=1;
             document.querySelector('#count').innerHTML = count;
 
             let singleTweetContainer = document.createElement('div');
             singleTweetContainer.classList.add('singleTweet');
             let content = document.createElement('p');
-            content.innerText = event.data;
+            content.innerText = event.data.replace(/"/g, ''); // Remove useless ""
             singleTweetContainer.appendChild(content);
             document.querySelector('#tweets').appendChild(singleTweetContainer);
         });
@@ -40,10 +85,14 @@
 
 <article>
     <header>
-        <h1><span id="count"></span> Tweets</h1>
+        <h1><span id="count"></span> Tweets from users who allow Twitter to watch their location</h1>
+        <!--<button>Click</button>-->
     </header>
 
     <section id="tweets">
+
+        <h2 id="1"></h2>
+        <h2 id="2"></h2>
 
     </section>
 

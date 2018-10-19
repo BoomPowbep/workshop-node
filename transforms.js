@@ -5,8 +5,15 @@ const tweetExtractor = new Transform({
     writableObjectMode: true,
 
     transform(chunk, encoding, callback) {
-        const newChunk = chunk.text;
-        this.push(newChunk);
+
+        let enabled = chunk.user.geo_enabled;
+
+        if (enabled === true) {
+
+            let name = chunk.user.name;
+            console.log(name);
+            this.push(name);
+        }
         callback();
     }
 });

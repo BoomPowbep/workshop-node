@@ -1,15 +1,13 @@
 const Twitter = require('twitter');
 const dotEnv = require('dotenv');
-const TwitterStream = require('./twitterStream');
+const { TwitterStream, OutStream } = require('./streams');
 const { tweetExtractor, stringify } = require('./transforms');
 
 const fs = require("fs");
 const http = require("http");
 const WebSocket = require("ws");
-const {Writable} = require('stream');
 
 dotEnv.config();
-
 
 const server = http.createServer();
 const wsServer = new WebSocket.Server({server}); // const wss = new WebSocket.Server({ server: server });
@@ -31,27 +29,15 @@ const twitterClient = new Twitter({
 
 const stream = new TwitterStream(twitterClient);
 
-
-// stream.pipe(tweetExtractor).pipe(stringify).pipe(process.stdout);
-
-class OutStream extends Writable {
-
-    constructor(socket) {
-        super();
-        this.m_socket = socket;
-    }
-
-    _write(chunk, encoding, callback) {
-        // send chunk to ws
-        this.m_socket.send(chunk.toString());
-        callback();
-    }
-}
-
 /** Connexion client */
 wsServer.on("connection", client => {
-    console.log("connection", client);
+
     stream.track('fuck');
     let out = new OutStream(client);
     stream.pipe(tweetExtractor).pipe(stringify).pipe(out);
+
+    client.on("message", message => {
+        console.log("message from client: ", message);
+        message.pipe(out);
+    });
 });
