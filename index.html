@@ -10,6 +10,8 @@
             width: 100%;
             height: 100%;
 
+            overflow: scroll;
+
             background: #f1e767; /* Old browsers */
             background: -moz-linear-gradient(top, #f1e767 0%, #feb645 100%); /* FF3.6-15 */
             background: -webkit-linear-gradient(top, #f1e767 0%,#feb645 100%); /* Chrome10-25,Safari5.1-6 */
@@ -51,35 +53,6 @@
         }
     </style>
 
-    <script>
-        let socket = new WebSocket('ws://localhost:8080');
-
-        socket.addEventListener('open', function (event) {
-            console.log("Connected", event);
-            console.log("Started", new Date().toLocaleString());
-        });
-
-        // document.querySelector('button').addEventListener('mouseDown', () => {
-        //     console.log('yes');
-        //     socket.send('hello')
-        // });
-
-        let count = 0;
-
-        socket.addEventListener('message', function (event) {
-
-            count+=1;
-            document.querySelector('#count').innerHTML = count;
-
-            let singleTweetContainer = document.createElement('div');
-            singleTweetContainer.classList.add('singleTweet');
-            let content = document.createElement('p');
-            content.innerText = event.data.replace(/"/g, ''); // Remove useless ""
-            singleTweetContainer.appendChild(content);
-            document.querySelector('#tweets').appendChild(singleTweetContainer);
-        });
-    </script>
-
 </head>
 <body>
 
@@ -97,6 +70,43 @@
     </section>
 
 </article>
+
+<script>
+    let socket = new WebSocket('ws://localhost:8080');
+
+    socket.addEventListener('open', function (event) {
+        console.log("Connected", event);
+        console.log("Started", new Date().toLocaleString());
+    });
+
+    // document.querySelector('button').addEventListener('mouseDown', () => {
+    //     console.log('yes');
+    //     socket.send('hello')
+    // });
+
+    let count = 0;
+
+    socket.addEventListener('message', function (event) {
+
+        let data = JSON.parse(event.data);
+
+        count+=1;
+        document.querySelector('#count').innerHTML = count;
+
+        let singleTweetContainer = document.createElement('div');
+        singleTweetContainer.classList.add('singleTweet');
+
+        let image = document.createElement('img');
+        image.src = data.pic;
+        singleTweetContainer.appendChild(image);
+
+        let content = document.createElement('p');
+        content.innerText = data.name.replace(/"/g, ''); // Remove useless ""
+        singleTweetContainer.appendChild(content);
+
+        document.querySelector('#tweets').appendChild(singleTweetContainer);
+    });
+</script>
 
 </body>
 </html>

@@ -32,7 +32,7 @@ const stream = new TwitterStream(twitterClient);
 /** Connexion client */
 wsServer.on("connection", client => {
 
-    stream.track('fuck');
+    stream.track('melenchon');
     let out = new OutStream(client);
     stream.pipe(tweetExtractor).pipe(stringify).pipe(out);
 
