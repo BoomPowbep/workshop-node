@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Workshop Node.js</title>
+
+    <style>
+        #tweets {
+            display: flex;
+            flex-direction: column-reverse;
+        }
+    </style>
+
+    <script>
+        let socket = new WebSocket('ws://localhost:8080');
+
+        socket.addEventListener('open', function (event) {
+            console.log("connected", event);
+        });
+
+        let count = 0;
+
+        socket.addEventListener('message', function (event) {
+            // console.log("new message", event.data);
+            count+=1;
+            document.querySelector('#count').innerHTML = count;
+
+            let singleTweetContainer = document.createElement('div');
+            singleTweetContainer.classList.add('singleTweet');
+            let content = document.createElement('p');
+            content.innerText = event.data;
+            singleTweetContainer.appendChild(content);
+            document.querySelector('#tweets').appendChild(singleTweetContainer);
+        });
+    </script>
+
+</head>
+<body>
+
+<article>
+    <header>
+        <h1><span id="count"></span> Tweets</h1>
+    </header>
+
+    <section id="tweets">
+
+    </section>
+
+</article>
+
+</body>
+</html>
