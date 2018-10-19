@@ -15,13 +15,14 @@
         let socket = new WebSocket('ws://localhost:8080');
 
         socket.addEventListener('open', function (event) {
-            console.log("connected", event);
+            console.log("Connected", event);
+            console.log("Started", new Date().toLocaleString());
         });
 
         let count = 0;
 
         socket.addEventListener('message', function (event) {
-            // console.log("new message", event.data);
+            // console.log("New message", event.data);
             count+=1;
             document.querySelector('#count').innerHTML = count;
 
