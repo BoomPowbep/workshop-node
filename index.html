@@ -31,6 +31,7 @@
             align-items: center;
             margin-left: 30px;
             margin-right: 30px;
+            margin-bottom: 30px;
         }
 
         h1 {
@@ -59,7 +60,7 @@
 <article>
     <header>
         <h1><span id="count"></span> Tweets from users who allow Twitter to watch their location</h1>
-        <!--<button>Click</button>-->
+        <button id="chiwawa">Switch keyword</button>
     </header>
 
     <section id="tweets">
@@ -79,14 +80,16 @@
         console.log("Started", new Date().toLocaleString());
     });
 
-    // document.querySelector('button').addEventListener('mouseDown', () => {
-    //     console.log('yes');
-    //     socket.send('hello')
-    // });
+    document.querySelector('#chiwawa').addEventListener('click', () => {
+        console.log('yes');
+        socket.send('switch');
+    });
 
     let count = 0;
 
     socket.addEventListener('message', function (event) {
+
+        console.log(event.data);
 
         let data = JSON.parse(event.data);
 
