@@ -19,3 +19,8 @@ Start the server :
 node main.js
 ````
 
+If you get the error 'Error: Cannot find module 'ws'
+' (got it on Ubuntu), run the following command :
+````
+npm install ws
+````
