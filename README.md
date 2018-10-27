@@ -9,17 +9,19 @@ Hovever, the free Twitter API does not allow us to locate any user.
 
 ### Install
 
-Setup the project :
+1/ Setup the project :
 ````
 npm install
 ````
 
-Start the server :
+2/ Create a new .env file based on .env.demo and put your API credentials in.
+
+3/ Start the server :
 ````
 node main.js
 ````
 
-If you get the error 'Error: Cannot find module 'ws'
+4/ If you get the error 'Cannot find module 'ws'
 ' (got it on Ubuntu), run the following command :
 ````
 npm install ws
