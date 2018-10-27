@@ -1,13 +1,25 @@
 const {Transform} = require('stream');
 
+/**
+ * Tweet Extractor Singleton.
+ * Extracts data from a tweet.
+ */
 const tweetExtractor = new Transform({
     readableObjectMode: true,
     writableObjectMode: true,
 
+    /**
+     * Filters the twitter API data.
+     * Extracts 'geo enabled', 'user name' and 'profile image'
+     * @param chunk
+     * @param encoding
+     * @param callback
+     */
     transform(chunk, encoding, callback) {
 
         let enabled = chunk.user.geo_enabled;
 
+        // Getting more info if the user enabled geoloc
         if (enabled === true) {
 
             let name = chunk.user.name;
@@ -19,6 +31,10 @@ const tweetExtractor = new Transform({
     }
 });
 
+/**
+ * Stringify Singleton.
+ * Stringifies our data for sour stream.
+ */
 const stringify = new Transform({
 
     writableObjectMode: true,
