@@ -12,9 +12,9 @@ dotEnv.config();
 const server = http.createServer();
 const wsServer = new WebSocket.Server({server}); // const wss = new WebSocket.Server({ server: server });
 
-/** En cas de requête on envoie la page index */
+/** Sending index.html to the client */
 server.on("request", (request, response) => {
-    const fileSrc = fs.createReadStream("./index.html");
+    const fileSrc = fs.createReadStream("./public/index.html");
     fileSrc.pipe(response);
 });
 
@@ -29,7 +29,7 @@ const twitterClient = new Twitter({
 
 const stream = new TwitterStream(twitterClient);
 
-/** Connexion client */
+/** On new client */
 wsServer.on("connection", client => {
 
     let currentKeyword = 'melenchon';

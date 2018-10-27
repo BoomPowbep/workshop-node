@@ -60,7 +60,7 @@
 <article>
     <header>
         <h1><span id="count"></span> Tweets from users who allow Twitter to watch their location</h1>
-        <button id="chiwawa">Switch keyword</button>
+        <button id="switcher">Switch keyword</button>
     </header>
 
     <section id="tweets">
@@ -75,13 +75,15 @@
 <script>
     let socket = new WebSocket('ws://localhost:8080');
 
+    // On stream start
     socket.addEventListener('open', function (event) {
         console.log("Connected", event);
         console.log("Started", new Date().toLocaleString());
     });
 
-    document.querySelector('#chiwawa').addEventListener('click', () => {
-        console.log('yes');
+    // On button click
+    document.querySelector('#switcher').addEventListener('click', () => {
+        console.log('Switch !');
         socket.send('switch');
     });
 
