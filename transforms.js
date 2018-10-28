@@ -23,8 +23,8 @@ const tweetExtractor = new Transform({
         if (enabled === true) {
 
             let name = chunk.user.name;
-            let pic = chunk.user.profile_image_url_https;
             console.log(name);
+            let pic = chunk.user.profile_image_url_https;
             this.push({name, pic});
         }
         callback();

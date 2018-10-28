@@ -40,6 +40,12 @@
             text-align: center;
         }
 
+        #adderContainer {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
         button {
             margin-left: 20px;
         }
@@ -60,7 +66,10 @@
 <article>
     <header>
         <h1><span id="count"></span> Tweets from users who allow Twitter to watch their location</h1>
-        <button id="switcher">Switch keyword</button>
+        <div id="adderContainer">
+            <input type="text" name="newKeyword" id="newKeyword">
+            <button id="adder">Add keyword</button>
+        </div>
     </header>
 
     <section id="tweets">
@@ -82,9 +91,10 @@
     });
 
     // On button click
-    document.querySelector('#switcher').addEventListener('click', () => {
-        console.log('Switch !');
-        socket.send('switch');
+    document.querySelector('#adder').addEventListener('click', () => {
+        let inputVal = document.querySelector('#newKeyword').value;
+        console.log('Add ' + inputVal);
+        socket.send(inputVal);
     });
 
     let count = 0;

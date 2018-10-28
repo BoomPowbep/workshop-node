@@ -32,30 +32,20 @@ const stream = new TwitterStream(twitterClient);
 /** On new client */
 wsServer.on("connection", client => {
 
-    let currentKeyword = 'melenchon';
-
     let out = new OutStream(client);
 
+    // Switch keyword request from client
     client.on("message", message => {
         console.log("Switch request from client: ", message);
-        stream.unpipe().unpipe().unpipe();
-        run();
+        stream.unpipe();
+        run(message);
     });
 
-    run();
+    run('clinton'); // Starts with this keyword
 
-    function run() {
+    function run(keyword) {
 
-        switch(currentKeyword) {
-            case 'melenchon':
-                currentKeyword = 'johnny';
-                break;
-            case 'johnny':
-                currentKeyword = 'melenchon';
-                break;
-        }
-
-        stream.track(currentKeyword);
+        stream.track(keyword);
         stream.pipe(tweetExtractor).pipe(stringify).pipe(out);
     }
 });
