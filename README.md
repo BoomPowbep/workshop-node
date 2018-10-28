@@ -4,8 +4,12 @@
 This app displays the pseudonyms of the Twitter users who activated their localization. 😈
 Of course it doesn't actually shows the location.
 
+It starts with the keyword 'clinton'. Then the user can add an other keyword.
+
 The initial idea was to show recent tweets origin on an interactive map. 
 Hovever, the free Twitter API does not allow us to locate any user.
+
+Sometimes the API crashes, I don't know why.
 
 ### Install
 

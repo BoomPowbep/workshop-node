@@ -36,7 +36,7 @@ wsServer.on("connection", client => {
 
     // Switch keyword request from client
     client.on("message", message => {
-        console.log("Switch request from client: ", message);
+        console.log("New filter from client : ", message);
         stream.unpipe();
         run(message);
     });

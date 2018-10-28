@@ -67,8 +67,8 @@
     <header>
         <h1><span id="count"></span> Tweets from users who allow Twitter to watch their location</h1>
         <div id="adderContainer">
-            <input type="text" name="newKeyword" id="newKeyword">
-            <button id="adder">Add keyword</button>
+            <label><input type="text" name="newKeyword" id="newKeyword"></label>
+            <button id="adder">New keyword</button>
         </div>
     </header>
 
@@ -83,9 +83,10 @@
 
 <script>
     let socket = new WebSocket('ws://localhost:8080');
+    let previousEvent = null;
 
     // On stream start
-    socket.addEventListener('open', function (event) {
+    socket.addEventListener('open', (event) => {
         console.log("Connected", event);
         console.log("Started", new Date().toLocaleString());
     });
@@ -93,33 +94,42 @@
     // On button click
     document.querySelector('#adder').addEventListener('click', () => {
         let inputVal = document.querySelector('#newKeyword').value;
-        console.log('Add ' + inputVal);
+        console.log('New filter : ' + inputVal);
         socket.send(inputVal);
+        document.querySelector('#newKeyword').value = "";
     });
 
     let count = 0;
 
-    socket.addEventListener('message', function (event) {
+    socket.addEventListener('message', (event) => {
 
-        console.log(event.data);
+        if( previousEvent !== event.data ) { // Solves the bug where the same thing was displayed multiple times
 
-        let data = JSON.parse(event.data);
+            // console.log(event.data);
+            previousEvent = event.data;
 
-        count+=1;
-        document.querySelector('#count').innerHTML = count;
+            /** *********************** **/
 
-        let singleTweetContainer = document.createElement('div');
-        singleTweetContainer.classList.add('singleTweet');
+            count+=1;
+            document.querySelector('#count').innerHTML = count;
 
-        let image = document.createElement('img');
-        image.src = data.pic;
-        singleTweetContainer.appendChild(image);
+            /** *********************** **/
+            let data = JSON.parse(event.data);
 
-        let content = document.createElement('p');
-        content.innerText = data.name.replace(/"/g, ''); // Remove useless ""
-        singleTweetContainer.appendChild(content);
+            let singleTweetContainer = document.createElement('div');
+            singleTweetContainer.classList.add('singleTweet');
 
-        document.querySelector('#tweets').appendChild(singleTweetContainer);
+            let image = document.createElement('img');
+            image.src = data.pic;
+            singleTweetContainer.appendChild(image);
+
+            let content = document.createElement('p');
+            content.innerText = data.name.replace(/"/g, ''); // Remove useless ""
+            singleTweetContainer.appendChild(content);
+
+            document.querySelector('#tweets').appendChild(singleTweetContainer);
+            /** *********************** **/
+        }
     });
 </script>
 
