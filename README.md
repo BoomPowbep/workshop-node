@@ -2,7 +2,7 @@
 
 ### What is it ?
 This app displays the pseudonyms of the Twitter users who activated their localization. 😈
-Of course it doesn't actually shows the location.
+Of course it doesn't actually show the location.
 
 It starts with the keyword 'clinton'. Then the user can add an other keyword.
 
